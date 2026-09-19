@@ -1,0 +1,14 @@
+require("dotenv").config();
+ const dns=require("dns");
+dns.setServers(["8.8.8.8", "8.8.4.4"]);
+const cors=require("cors");
+const {connectDb}=require("./config/db.js");
+const express=require("express");
+const app=express();
+app.use(cors());
+const Port=process.env.PORT||8000;
+const routineRoute=require("./routes/routineroute.js");
+connectDb();
+app.use(express.json());
+app.use("/routine",routineRoute);
+app.listen(Port,()=>console.log(`server running on ${Port}`));
