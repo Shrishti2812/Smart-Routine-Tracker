@@ -48,7 +48,11 @@ function RoutineItem({ routine, onEdit, handleDelete, handleEdit }) {
   <div className="flex items-center gap-2 mt-4">
 
     <button
-      onClick={() => onEdit(routine.id)}
+       onClick={() => {
+    console.log("Done clicked, ID:", routine.id);
+    onEdit(routine.id);
+  }}
+          
       className={`px-3 py-1.5 rounded-lg text-sm font-medium text-white transition
       ${
         isCompletedToday
@@ -56,7 +60,7 @@ function RoutineItem({ routine, onEdit, handleDelete, handleEdit }) {
           : "bg-blue-600 hover:bg-blue-700"
       }`}
     >
-      {isCompletedToday ? "✓ Done" : "Done"}
+      {isCompletedToday ? "✓ Done" : "Mark Done"}
     </button>
 
     <button

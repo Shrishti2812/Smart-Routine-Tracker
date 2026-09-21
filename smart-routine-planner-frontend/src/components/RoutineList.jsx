@@ -1,6 +1,6 @@
 import RoutineItem from "./RoutineItem";
 import { useState } from "react";
-function RoutineList({routines, setRoutines, deleteRoutine, toggleDone, handleEdit, handleDelete}) {
+function RoutineList({routines,  toggleDone, handleEdit, handleDelete}) {
    const [searchTerm,setSearchTerm]=useState("");
    const [filterPriority,setFilterPriority]=useState("All");
    const [filterCategory,setFilterCategory]=useState("All");

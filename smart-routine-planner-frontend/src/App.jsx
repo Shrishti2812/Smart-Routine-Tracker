@@ -4,6 +4,7 @@ import RoutineList from './components/RoutineList.jsx';
 import RoutineStats from './components/RoutineStats.jsx';
  import DeleteModal from './components/DeleteModal.jsx';
  import StatsTop from './components/StatsTop.jsx';
+ import api from './api/axios.js'
 function App() {
 const [routine, setRoutine] = useState({
   id: Date.now(),
@@ -15,7 +16,7 @@ const [routine, setRoutine] = useState({
   streak:0,
   lastCompletedDate:null,
 });
-
+const [stats,setStats]=useState(null);
 const[error,setError]=useState("");
 const [editId, setEditId] = useState(null);
 
@@ -23,51 +24,125 @@ const[showDelete,setShowDelete]=useState(false);
 const [deleteId,setDeleteId]=useState(null);
 
  // Load routines from localStorage on initial render
-  const [routines, setRoutines] = useState(()=>{
-  try{
-   const data = localStorage.getItem("routines");
-    const parsed = data ? JSON.parse(data) : [];    
-    return Array.isArray(parsed) ? parsed : [];
-  }catch(error){
-    console.error("Error parsing notes from localStorage:", error);
-    return [];
-  }
-});
+  const [routines, setRoutines] = useState([]);
   
 // Save routines to localStorage whenever they change
-useEffect(()=>{
-    localStorage.setItem("routines",JSON.stringify(routines))
-  },[routines]);
 
+useEffect(() => {
+  const getRoutines = async () => {
+    try {
+      const response = await api.get("/routine/get");
+      const data = response.data.map((routine) => ({
+        ...routine,
+        id: routine._id
+      }));
 
-const addRoutine = (passedRoutine) => {
+      setRoutines(data);
+
+    } catch (error) {
+        setError(
+        error.response?.data?.message ||
+        "Failed to load routines."
+      );
+    }
+  };
+
+  getRoutines();
+}, []);
+const getStats = async () => {
+  try {
+    const response = await api.get("/routine/stats");
+    setStats(response.data);
+  } catch (error) {
+    console.log("Get stats error:", error);
+  }
+};
+
+useEffect(() => {
+  getStats();
+}, []);
+ 
+const addRoutine = async (passedRoutine) => {
   const current = passedRoutine || routine;
-  if(!current.title || !current.category || !current.targetHours || !current.priority){
+
+  if (
+    !current.title ||
+    !current.category ||
+    !current.targetHours ||
+    !current.priority
+  ) {
     setError("Please fill in all fields");
     return;
   }
+
   setError("");
-  if (editId) {
-    const updatedRoutines = routines.map((item) =>
-      item.id === editId ? { ...current, id: editId } : item
+
+  try {
+    console.log("Routine being sent:", {
+      title: current.title,
+      category: current.category,
+      targetHours: current.targetHours,
+      priority: current.priority
+    });
+
+    if (editId) {
+      const response = await api.put(`/routine/${editId}`, {
+        title: current.title,
+        category: current.category,
+        targetHours: current.targetHours,
+        priority: current.priority
+      });
+
+      console.log("Edit response:", response.data);
+
+      const updatedRoutine = {
+        ...response.data.routine,
+        id: response.data.routine._id
+      };
+
+      setRoutines(
+        routines.map((item) =>
+          item.id == editId ? updatedRoutine : item
+        )
+      );
+
+      setEditId(null);
+
+    } else {
+      const response = await api.post(`/routine/add`, {
+        title: current.title,
+        category: current.category,
+        targetHours: current.targetHours,
+        priority: current.priority
+      });
+      const newRoutine = {
+        ...response.data,
+        id: response.data._id
+      };
+
+      setRoutines([...routines, newRoutine]);
+     
+    }
+ await getStats();
+    setRoutine({
+      id: Date.now(),
+      title: "",
+      category: "",
+      targetHours: "",
+      priority: "",
+      completed: false,
+      streak: 0,
+      lastCompletedDate: null,
+    });
+
+  } catch (error) {
+     setError(
+      error.response?.data?.message ||
+      "Something went wrong. Please try again."
     );
-    setRoutines(updatedRoutines);
-    setEditId(null);
-  } else {
-    const newRoutine = { ...current, id: Date.now() };
-    setRoutines([...routines, newRoutine]);
   }
-  setRoutine({
-    id: Date.now(),
-    title: "",
-    category: "",
-    targetHours: "",
-    priority: "",
-    completed: false,
-    streak:0,
-    lastCompletedDate:null,
-  });
 };
+ 
 
  
 const handleEdit=(item)=>{
@@ -88,10 +163,12 @@ const handleEdit=(item)=>{
     setDeleteId(id);
   }
 
-  const confirmDelete=()=>{
+  const confirmDelete=async ()=>{
+       await api.delete(`/routine/${deleteId}`);
     setRoutines(routines.filter((routine) => routine.id !== deleteId));
     setShowDelete(false);
     setDeleteId(null);
+    await getStats();
   }
 
   const cancelDelete=()=>{
@@ -99,27 +176,27 @@ const handleEdit=(item)=>{
     setDeleteId(null);
   }
 
- const deleteRoutine=(id)=>{
-  setRoutines(routines.filter((routine) => routine.id !== id));
- }
- const toggleDone=(id)=>{
-  const today = new Date().toISOString().split("T")[0];
-  const yesterday = new Date(Date.now() - 86400000).toISOString().split("T")[0];
+ 
+ const toggleDone = async (id) => {
+  try {
+    const response = await api.post(`/routine/${id}/complete`);
 
-  setRoutines(prev => prev.map((routine) => {
-    if (routine.id !== id) return routine;
+    const updatedRoutine = {
+      ...response.data.routine,
+      id: response.data.routine._id
+    };
 
-  if(routine.islastCompletedDate===today){return routine;}
-
-  let newStreak=1;
-  if(routine.lastCompletedDate===yesterday){
-    newStreak=routine.streak+1;
+    setRoutines((prev) =>
+      prev.map((routine) =>
+        routine.id === id ? updatedRoutine : routine
+      )
+    );
+await getStats();
+  } catch (error) {
+    console.log("Backend error:", error.response?.data);
+    setError(error.response?.data?.message || "Failed to complete routine."   );
   }
-  return { ...routine, 
-    completed: true,
-    streak: newStreak, lastCompletedDate: today };
- }));
- }
+};
  
  return (
     <>
@@ -136,7 +213,7 @@ const handleEdit=(item)=>{
     </p>
   </header>
 
-  <StatsTop routines={routines} />
+  <StatsTop stats={stats} />
 
   {/* ================= DESKTOP ================= */}
   <div className="hidden md:flex px-6 py-4 md:px-12 gap-8">
@@ -191,7 +268,7 @@ const handleEdit=(item)=>{
       toggleDone={toggleDone}
     />
 
-    <RoutineStats routines={routines} />
+    <RoutineStats stats={stats} />
 
     <DeleteModal
       isOpen={showDelete}
