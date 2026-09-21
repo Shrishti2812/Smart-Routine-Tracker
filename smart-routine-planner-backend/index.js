@@ -7,7 +7,7 @@ const express=require("express");
 const app=express();
 app.use(cors());
 const Port=process.env.PORT||8000;
-const routineRoute=require("./routes/routineroute.js");
+const routineRoute=require("./routes/routineRoute.js");
 connectDb();
 app.use(express.json());
 app.use("/routine",routineRoute);
