@@ -1,15 +1,15 @@
 const mongoose=require("mongoose");
 const routine=mongoose.Schema({
-    name:{
+   title:{
         type:String,
         required:true
     },
-    category:{
-        type:String,
-        enum:["Study","Work","Personal","Health","Other"],
-        required:true
-    },
-    hours:{
+  category: {
+  type: String,
+  enum: ["study", "work", "personal", "health", "other"],
+  required: true
+},
+    targetHours:{
         type:Number,
         required:true
     },

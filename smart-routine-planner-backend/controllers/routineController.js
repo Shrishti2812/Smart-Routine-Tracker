@@ -1,8 +1,8 @@
 const Routine=require("../models/routine.js");
 const addRoutine=async(req,res)=>{
     try{
-        const {name,category,hours,priority}=req.body;
-        const routine=await Routine.create({name,category,hours,priority});
+        const {title,category,targetHours,priority}=req.body;
+        const routine=await Routine.create({title,category,targetHours,priority});
     return res.status(201).json(routine);
     }catch(error){
         return res.status(500).json({message:error.message});
@@ -64,10 +64,12 @@ const addRoutine=async(req,res)=>{
                 routine.streak=1;
             }
             routine.lastCompletedDate = today;
-            console.log("Before save:", routine.lastCompletedDate);
+         
             await routine.save();
-            return res.status(200).json({message:"Routine completed successfully",streak:routine.streak});
-        }catch(error){
+return res.status(200).json({
+  message: "Routine completed successfully",
+  routine
+});        }catch(error){
             return res.status(500).json({message:error.message});
         }   }
 
@@ -94,12 +96,13 @@ const addRoutine=async(req,res)=>{
     };
 
    const categoryCount = {
-  Study: 0,
-  Work: 0,
-  Personal: 0,
-  Health: 0,
-  Other: 0
+  study: 0,
+  work: 0,
+  personal: 0,
+  health: 0,
+  other: 0
 };
+const pending=total-completed;
 
     routines.forEach((routine) => {
       if (routine.priority) {
@@ -116,6 +119,7 @@ const addRoutine=async(req,res)=>{
       completed,
       completedRate,
       priorityCount,
+      pending,
       categoryCount
     });
 
@@ -125,4 +129,4 @@ const addRoutine=async(req,res)=>{
     });
   }
 };
-    module.exports={addRoutine,getRoutine,updateRoutine,deleteRoutine,completeRoutine,getStats};
+module.exports={addRoutine,getRoutine,updateRoutine,deleteRoutine,completeRoutine,getStats};
