@@ -7,8 +7,10 @@ const express=require("express");
 const app=express();
 app.use(cors());
 const Port=process.env.PORT||8000;
-const routineRoute=require("./routes/routineRoute.js");
+const routineRoute = require("./routes/routineRoute.js");
+const aiRoute=require("./routes/aiRoute.js")
 connectDb();
 app.use(express.json());
 app.use("/routine",routineRoute);
+app.use("/ai",aiRoute);
 app.listen(Port,()=>console.log(`server running on ${Port}`));
