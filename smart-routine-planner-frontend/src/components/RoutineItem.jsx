@@ -3,27 +3,30 @@ function RoutineItem({ routine, onEdit, handleDelete, handleEdit }) {
   const isCompletedToday = routine.lastCompletedDate === today;
     return (
     <>
- <div className="bg-white border border-slate-200/80 rounded-[1.75rem] p-5 shadow-sm transition duration-300 hover:shadow-xl">
+ <div className="rounded-2xl border border-[#cce2c7] bg-[#eff7e9] p-4 shadow-sm transition duration-200 hover:border-[#9fceaa] hover:bg-white hover:shadow-md sm:p-5">
 
   {/* Header */}
   <div className="flex items-start justify-between">
 
-    <div>
+    <div className="min-w-0">
       <h2 className="font-semibold text-slate-900">
         {routine.title}
       </h2>
 
-      <p className="text-sm text-slate-500 mt-1">
-        {routine.category} • {routine.targetHours} hrs
+      <p className="mt-1.5 flex flex-wrap items-center gap-1.5 text-sm text-slate-500">
+        <span className="rounded-md bg-slate-100 px-2 py-0.5 capitalize">{routine.category}</span>
+        <span className="text-slate-300">·</span>
+        <span>{routine.targetHours} hrs</span>
       </p>
     </div>
 
-    <div className="flex items-center gap-2">
+    <div className="ml-3 flex shrink-0 flex-wrap items-center justify-end gap-2">
 
       {/* Streak */}
-      <div className="bg-orange-50 border border-orange-100 px-3 py-1 rounded-xl">
-        <span className="text-orange-600 font-semibold text-sm">
-          🔥 {routine.streak}
+      <div className="inline-flex items-center gap-1.5 rounded-lg border border-[#c8e1bb] bg-[#e5f3d9] px-2.5 py-1">
+        <span aria-hidden="true" className="text-sm leading-none">🔥</span>
+        <span className="text-sm font-semibold tabular-nums text-[#4d773d]">
+          {routine.streak} day streak
         </span>
       </div>
 
@@ -32,10 +35,10 @@ function RoutineItem({ routine, onEdit, handleDelete, handleEdit }) {
         className={`px-2.5 py-1 rounded-full text-xs font-medium
         ${
           routine.priority === "high"
-            ? "bg-red-100 text-red-700"
+            ? "bg-[#fde6e2] text-[#a34b40]"
             : routine.priority === "medium"
-            ? "bg-amber-100 text-amber-700"
-            : "bg-emerald-100 text-emerald-700"
+            ? "bg-[#fff0d2] text-[#805d20]"
+            : "bg-[#e0f2dc] text-[#3e7849]"
         }`}
       >
         {routine.priority}
@@ -45,7 +48,7 @@ function RoutineItem({ routine, onEdit, handleDelete, handleEdit }) {
   </div>
 
   {/* Actions */}
-  <div className="flex items-center gap-2 mt-4">
+  <div className="mt-4 flex flex-wrap items-center gap-2 border-t border-slate-100 pt-3">
 
     <button
        onClick={() => {
@@ -53,11 +56,11 @@ function RoutineItem({ routine, onEdit, handleDelete, handleEdit }) {
     onEdit(routine.id);
   }}
           
-      className={`px-3 py-1.5 rounded-lg text-sm font-medium text-white transition
+      className={`rounded-lg border px-3 py-1.5 text-sm font-semibold transition
       ${
         isCompletedToday
-          ? "bg-emerald-600 hover:bg-emerald-700"
-          : "bg-blue-600 hover:bg-blue-700"
+          ? "border-[#abd8af] bg-[#dcf1dc] text-[#347b48] hover:bg-[#cce9cf]"
+          : "border-[#459e60] bg-[#459e60] text-white hover:bg-[#37864f]"
       }`}
     >
       {isCompletedToday ? "✓ Done" : "Mark Done"}
@@ -65,14 +68,14 @@ function RoutineItem({ routine, onEdit, handleDelete, handleEdit }) {
 
     <button
       onClick={() => handleEdit(routine)}
-      className="px-3 py-1.5 rounded-lg text-sm border border-slate-200 text-slate-600 hover:bg-slate-50"
+      className="rounded-lg border border-slate-200 px-3 py-1.5 text-sm font-medium text-slate-600 transition hover:bg-slate-100"
     >
       Edit
     </button>
 
     <button
       onClick={() => handleDelete(routine.id)}
-      className="px-3 py-1.5 rounded-lg text-sm border border-red-200 text-red-500 hover:bg-red-50"
+      className="rounded-lg border border-[#ead4d1] px-3 py-1.5 text-sm font-medium text-[#a65d54] transition hover:bg-[#fbf1ef]"
     >
       Delete
     </button>

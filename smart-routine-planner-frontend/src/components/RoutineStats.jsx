@@ -1,207 +1,158 @@
-function RoutineStats({ stats }) {
-
+function RoutineStats({ stats, routines = [] }) {
   if (!stats) return null;
 
-  let message = "";
+  const today = new Date().toISOString().split("T")[0];
 
-  if (Number(stats.completedRate) === 100) {
-    message =
-      "Amazing! You've completed all your routines today! Keep up the fantastic work!";
-  } else if (Number(stats.completedRate) >= 75) {
-    message =
-      "Great job! You're making excellent progress. Keep pushing to complete the rest!";
-  } else if (Number(stats.completedRate) >= 50) {
-    message =
-      "Good effort! You're halfway there. Stay focused and keep going!";
-  } else if (Number(stats.completedRate) >= 20) {
-    message =
-      "Don't worry, every step counts! Keep working on your routines and you'll see progress!";
-  } else {
-    message =
-      "Let's get started! Every routine you complete today is a step towards your goals. You can do it!";
-  }
-
+  const priorityCount = stats.priorityCount || {};
+  const categoryCount = stats.categoryCount || {};
+  const priorityItems = [
+    { label: "High", key: "high", color: "#cf766b" },
+    { label: "Medium", key: "medium", color: "#d1a247" },
+    { label: "Low", key: "low", color: "#70ad80" },
+  ];
+  const categoryItems = [
+    { label: "Study", key: "study" },
+    { label: "Work", key: "work" },
+    { label: "Personal", key: "personal" },
+    { label: "Health", key: "health" },
+    { label: "Other", key: "other" },
+  ];
   return (
-    <>
-      <div className="w-full bg-white border border-slate-200 rounded-2xl shadow-sm p-5">
+    <div className="grid grid-cols-1 gap-5 px-4 mt-5 sm:px-8 lg:grid-cols-5 lg:px-12">
 
-        {/* Header */}
-        <div className="flex items-start justify-between mb-5">
+      {/* Today's Routines */}
+      <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm lg:col-span-4">
 
+        <div className="flex items-center justify-between border-b border-slate-200 bg-[#f0f8eb] px-5 py-4">
           <div>
-            <h2 className="text-lg font-semibold text-slate-900">
-              Routine Statistics
+            <h2 className="text-base font-semibold text-slate-900">
+              Today's Routines
             </h2>
 
-            <p className="text-xs text-slate-500">
-              Overview of your productivity
+            <p className="mt-0.5 text-xs text-slate-500">
+              Your routines for today
             </p>
           </div>
 
-          <div className="text-right">
-            <p className="text-xs text-slate-500">
-              Completion Rate
-            </p>
-
-            <p className="text-2xl font-semibold text-emerald-600">
-              {stats.completedRate}%
-            </p>
-          </div>
-
+          <span className="rounded-full bg-[#e0f2dc] px-3 py-1 text-xs font-semibold text-[#3e7849]">
+            {stats.completed || 0}/{stats.total || 0} completed
+          </span>
         </div>
 
-        {/* Progress */}
-        <div className="mb-5">
+        <div className="divide-y divide-slate-100">
 
-          <div className="flex items-center justify-between mb-2">
+          {routines.length > 0 ? (
+            routines.map((routine) => {
+              const isCompleted =
+                routine.lastCompletedDate === today;
 
-            <span className="text-sm text-slate-600">
-              Today's Progress
-            </span>
+              return (
+                <div
+                  key={routine.id || routine._id}
+                  className="flex items-center justify-between px-5 py-3 transition-colors hover:bg-[#f3f9f2]"
+                >
 
-            <span className="text-sm font-medium text-slate-900">
-              {stats.completed}/{stats.total}
-            </span>
+                  {/* Routine info */}
+                  <div className="flex min-w-0 items-center gap-3">
 
-          </div>
+                    <div
+                      className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-full border text-xs ${
+                        isCompleted
+                          ? "border-[#a6d5aa] bg-[#dcf1dc] text-[#347b48]"
+                          : "border-slate-300 bg-slate-50 text-slate-400"
+                      }`}
+                    >
+                      {isCompleted ? "✓" : "○"}
+                    </div>
 
-          <div className="w-full h-2 bg-slate-100 rounded-full overflow-hidden">
+                    <div className="min-w-0">
+                      <p className="truncate text-sm font-medium text-slate-800">
+                        {routine.title || "Untitled Routine"}
+                      </p>
 
-            <div
-              className="h-full bg-emerald-500 transition-all duration-500"
-              style={{ width: `${stats.completedRate}%` }}
-            />
+                      <p className="mt-1 flex flex-wrap items-center gap-1.5 text-xs text-slate-500">
+                        <span className="rounded bg-slate-100 px-1.5 py-0.5">
+                          {routine.category || "Other"}
+                        </span>
+                        <span className="rounded bg-[#fbf2df] px-1.5 py-0.5 text-[#79613a]">
+                          {routine.priority || "medium"} priority
+                        </span>
+                      </p>
+                    </div>
 
-          </div>
+                  </div>
 
-        </div>
+                  {/* Hours */}
+                  <span className="ml-4 shrink-0 rounded-lg bg-[#eaf4e9] px-2.5 py-1.5 text-sm font-semibold text-[#426e4b]">
+                    {routine.targetHours ?? 0} hrs
+                  </span>
 
-        {/* Breakdown */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-5">
-
-          {/* Priority */}
-          <div className="border border-slate-200 rounded-xl p-4">
-
-            <h3 className="text-sm font-semibold text-slate-900 mb-3">
-              Priority
-            </h3>
-
-            <div className="space-y-2 text-sm">
-
-              <div className="flex justify-between">
-                <span className="text-slate-600">
-                  🔴 High
-                </span>
-
-                <span className="font-medium">
-                  {stats.priorityCount.high}
-                </span>
-              </div>
-
-              <div className="flex justify-between">
-                <span className="text-slate-600">
-                  🟡 Medium
-                </span>
-
-                <span className="font-medium">
-                  {stats.priorityCount.medium}
-                </span>
-              </div>
-
-              <div className="flex justify-between">
-                <span className="text-slate-600">
-                  🟢 Low
-                </span>
-
-                <span className="font-medium">
-                  {stats.priorityCount.low}
-                </span>
-              </div>
-
+                </div>
+              );
+            })
+          ) : (
+            <div className="px-5 py-7 text-center text-sm text-slate-400">
+              No routines added yet.
             </div>
-
-          </div>
-
-          {/* Category */}
-          <div className="border border-slate-200 rounded-xl p-4">
-
-            <h3 className="text-sm font-semibold text-slate-900 mb-3">
-              Category
-            </h3>
-
-            <div className="space-y-2 text-sm">
-
-              <div className="flex justify-between">
-                <span className="text-slate-600">
-                  Study
-                </span>
-
-                <span className="font-medium">
-                  {stats.categoryCount.study}
-                </span>
-              </div>
-
-              <div className="flex justify-between">
-                <span className="text-slate-600">
-                  Work
-                </span>
-
-                <span className="font-medium">
-                  {stats.categoryCount.work}
-                </span>
-              </div>
-
-              <div className="flex justify-between">
-                <span className="text-slate-600">
-                  Personal
-                </span>
-
-                <span className="font-medium">
-                  {stats.categoryCount.personal}
-                </span>
-              </div>
-
-              <div className="flex justify-between">
-                <span className="text-slate-600">
-                  Health
-                </span>
-
-                <span className="font-medium">
-                  {stats.categoryCount.health}
-                </span>
-              </div>
-
-              <div className="flex justify-between">
-                <span className="text-slate-600">
-                  Other
-                </span>
-
-                <span className="font-medium">
-                  {stats.categoryCount.other}
-                </span>
-              </div>
-
-            </div>
-
-          </div>
+          )}
 
         </div>
+      </div>
 
-        {/* Motivation */}
-        <div className="bg-slate-50 border border-slate-200 rounded-xl p-4">
 
-          <h3 className="text-sm font-semibold text-slate-900 mb-1">
-            Motivation
+      {/* Breakdown */}
+      <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm lg:col-span-1">
+
+        {/* Priority */}
+        <div className="bg-[#f5faf4] px-4 py-4">
+
+          <h3 className="text-sm font-semibold text-slate-900">
+            Priority
           </h3>
 
-          <p className="text-sm text-slate-600 leading-relaxed">
-            {message}
-          </p>
+          <div className="mt-3 space-y-2 text-sm">
+            {priorityItems.map(({ label, key, color }) => {
+              const count = priorityCount[key] || 0;
+              return (
+                <div key={key} className="flex items-center justify-between gap-2">
+                  <span className="flex items-center gap-2 text-slate-600">
+                    <span aria-hidden="true" className="h-2 w-2 shrink-0 rounded-full" style={{ backgroundColor: color }} />
+                    {label}
+                  </span>
+                  <span className="font-semibold tabular-nums text-slate-800">{count}</span>
+                </div>
+              );
+            })}
+          </div>
+        </div>
 
+
+        <div className="border-t border-slate-200" />
+
+
+        {/* Categories */}
+        <div className="px-4 py-4">
+
+          <h3 className="text-sm font-semibold text-slate-900">
+            Categories
+          </h3>
+
+          <div className="mt-3 space-y-2 text-sm">
+            {categoryItems.map(({ label, key }) => {
+              const count = categoryCount[key] || 0;
+              return (
+                <div key={key} className="flex items-center justify-between gap-2">
+                  <span className="text-slate-600">{label}</span>
+                  <span className="font-semibold tabular-nums text-slate-800">{count}</span>
+                </div>
+              );
+            })}
+          </div>
         </div>
 
       </div>
-    </>
+
+    </div>
   );
 }
 
