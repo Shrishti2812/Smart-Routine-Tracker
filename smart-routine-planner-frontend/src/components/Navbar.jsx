@@ -32,9 +32,7 @@ function Navbar() {
             Routines
           </NavLink>
 
-          <NavLink to="/ai" className={navLinkClass}>
-            AI Planner
-          </NavLink>
+        
         </div>
 
       </div>
