@@ -4,7 +4,7 @@ function StatsTop({ stats }) {
   const completionRate = Number(stats.completedRate);
   return (
     <div className="px-4 sm:px-8 lg:px-12">
-  <div className="grid grid-cols-1 overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm lg:grid-cols-2">
+  <div className="grid grid-cols-1 overflow-hidden rounded-2xl border border-[#cad9c7] bg-[#f8faf4] shadow-[0_14px_34px_-28px_rgba(31,67,43,0.5)] lg:grid-cols-2">
 
     {/* Progress */}
     <div className="flex items-center gap-5 border-b border-[#d4e7d6] bg-[#edf6ed] px-5 py-7 text-slate-900 sm:gap-6 sm:px-8 lg:border-b-0 lg:border-r">
@@ -45,10 +45,10 @@ function StatsTop({ stats }) {
     </div>
 
     {/* Stats */}
-    <div className="grid grid-cols-2 bg-white">
+    <div className="grid grid-cols-2 bg-[#f1f4ec]">
       
-      <div className="flex min-h-[125px] flex-col justify-center border-b border-r border-slate-200 bg-[#fbfcfa] px-5 py-5 sm:px-6">
-        <p className="text-xs font-medium text-slate-500">
+      <div className="flex min-h-[125px] flex-col justify-center border-b border-r border-[#d9e2d5] bg-[#f7f8f2] px-5 py-5 sm:px-6">
+        <p className="text-xs font-semibold text-slate-500">
           Total Routines
         </p>
         <p className="mt-1 text-3xl font-semibold tabular-nums text-slate-900">
@@ -57,8 +57,8 @@ function StatsTop({ stats }) {
         <span className="mt-1 text-xs text-slate-500">in your plan</span>
       </div>
 
-      <div className="flex min-h-[125px] flex-col justify-center border-b border-slate-200 bg-[#f0f7ef] px-5 py-5 sm:px-6">
-        <p className="text-xs font-medium text-slate-500">
+      <div className="flex min-h-[125px] flex-col justify-center border-b border-[#d9e2d5] bg-[#eaf2e5] px-5 py-5 sm:px-6">
+        <p className="text-xs font-semibold text-slate-500">
           Completed
         </p>
         <p className="mt-1 text-3xl font-semibold tabular-nums text-emerald-700">
@@ -67,8 +67,8 @@ function StatsTop({ stats }) {
         <span className="mt-1 text-xs text-slate-500">done today</span>
       </div>
 
-      <div className="flex min-h-[125px] flex-col justify-center border-r border-slate-200 bg-[#fbfaf6] px-5 py-5 sm:px-6">
-        <p className="text-xs font-medium text-slate-500">
+      <div className="flex min-h-[125px] flex-col justify-center border-r border-[#d9e2d5] bg-[#f4f2e9] px-5 py-5 sm:px-6">
+        <p className="text-xs font-semibold text-slate-500">
           Pending
         </p>
         <p className="mt-1 text-3xl font-semibold tabular-nums text-slate-700">
@@ -77,8 +77,8 @@ function StatsTop({ stats }) {
         <span className="mt-1 text-xs text-slate-500">still to go</span>
       </div>
 
-      <div className="flex min-h-[125px] flex-col justify-center bg-[#eef7f1] px-5 py-5 sm:px-6">
-        <p className="text-xs font-medium text-slate-500">
+      <div className="flex min-h-[125px] flex-col justify-center bg-[#e7f0e9] px-5 py-5 sm:px-6">
+        <p className="text-xs font-semibold text-slate-500">
           Completion Rate
         </p>
         <p className="mt-1 text-3xl font-semibold tabular-nums text-emerald-700">

@@ -37,13 +37,13 @@ function Routines() {
   };
 
   return (
-    <div className="min-h-screen overflow-x-hidden bg-gradient-to-br from-[#d9f0d7] via-[#f7fbf3] to-[#c8e9df] px-4 py-10 text-slate-900 sm:px-6 sm:py-18 lg:px-10">
+    <div className="min-h-screen overflow-x-hidden bg-gradient-to-br from-[#e2eee0] via-[#f5f7ef] to-[#d5e9df] px-4 py-10 text-slate-900 sm:px-6 sm:py-18 lg:px-10">
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8">
         <div className="min-w-0">
-          <p className="mb-1 mt-1 text-xs font-semibold uppercase tracking-[0.14em] text-emerald-700">
+          <p className="mb-1 mt-1 text-xs font-bold uppercase tracking-[0.16em] text-[#37864f]">
             Routine library
           </p>
-          <h1 className="text-3xl font-bold text-slate-900 sm:text-4xl">
+          <h1 className="text-3xl font-bold text-[#172b21] sm:text-4xl">
             My Routines
           </h1>
 
@@ -57,7 +57,7 @@ function Routines() {
           </span>
         <button
           onClick={() => setShowForm(true)}
-          className="w-full rounded-xl bg-[#459e60] px-5 py-3 font-semibold text-white shadow-sm transition hover:bg-[#37864f] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#459e60] sm:w-auto"
+          className="w-full rounded-xl bg-[#286c43] px-5 py-3 font-semibold text-white shadow-[0_8px_18px_-12px_rgba(31,91,54,0.9)] transition hover:bg-[#245d3b] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#459e60] sm:w-auto"
         >
           + Add Routine
         </button>

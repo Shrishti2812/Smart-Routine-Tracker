@@ -8,14 +8,14 @@ function DashBoard() {
   const { stats, routines } = useContext(RoutineContext);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#d9f0d7] via-[#f7fbf3] to-[#c8e9df] py-8 text-slate-900">
+    <div className="min-h-screen bg-gradient-to-br from-[#e2eee0] via-[#f5f7ef] to-[#d5e9df] py-8 text-slate-900">
 
       {/* Page Header */}
       <div className="px-4 pt-8 sm:px-8 lg:px-12 lg:pt-10">
-        <p className="mb-2 text-xs font-semibold uppercase tracking-[0.14em] text-emerald-700">
+        <p className="mb-2 text-xs font-bold uppercase tracking-[0.16em] text-[#37864f]">
           Daily snapshot
         </p>
-        <h1 className="text-2xl font-bold tracking-tight text-slate-900 sm:text-4xl">
+        <h1 className="text-2xl font-bold tracking-tight text-[#172b21] sm:text-4xl">
           Your Routine Overview
         </h1>
 

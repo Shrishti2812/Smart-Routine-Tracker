@@ -21,9 +21,9 @@ function RoutineStats({ stats, routines = [] }) {
     <div className="grid grid-cols-1 gap-5 px-4 mt-5 sm:px-8 lg:grid-cols-5 lg:px-12">
 
       {/* Today's Routines */}
-      <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm lg:col-span-4">
+      <div className="overflow-hidden rounded-2xl border border-[#cad9c7] bg-[#f9faf5] shadow-[0_14px_34px_-28px_rgba(31,67,43,0.5)] lg:col-span-4">
 
-        <div className="flex items-center justify-between border-b border-slate-200 bg-[#f0f8eb] px-5 py-4">
+        <div className="flex items-center justify-between border-b border-[#d8e3d2] bg-[#eaf2e5] px-5 py-4">
           <div>
             <h2 className="text-base font-semibold text-slate-900">
               Today's Routines
@@ -39,7 +39,7 @@ function RoutineStats({ stats, routines = [] }) {
           </span>
         </div>
 
-        <div className="divide-y divide-slate-100">
+        <div className="divide-y divide-[#e2e8dd]">
 
           {routines.length > 0 ? (
             routines.map((routine) => {
@@ -49,7 +49,7 @@ function RoutineStats({ stats, routines = [] }) {
               return (
                 <div
                   key={routine.id || routine._id}
-                  className="flex items-center justify-between px-5 py-3 transition-colors hover:bg-[#f3f9f2]"
+                  className="flex items-center justify-between px-5 py-3 transition-colors hover:bg-[#edf3e9]"
                 >
 
                   {/* Routine info */}
@@ -101,10 +101,10 @@ function RoutineStats({ stats, routines = [] }) {
 
 
       {/* Breakdown */}
-      <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm lg:col-span-1">
+      <div className="overflow-hidden rounded-2xl border border-[#cad9c7] bg-[#f9faf5] shadow-[0_14px_34px_-28px_rgba(31,67,43,0.5)] lg:col-span-1">
 
         {/* Priority */}
-        <div className="bg-[#f5faf4] px-4 py-4">
+        <div className="bg-[#edf3e8] px-4 py-4">
 
           <h3 className="text-sm font-semibold text-slate-900">
             Priority

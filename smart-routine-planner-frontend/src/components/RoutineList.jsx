@@ -72,8 +72,8 @@ function RoutineList({
 
   return (
     <>
-      <div className="w-full rounded-2xl border border-slate-200 bg-white/95 p-4 shadow-sm md:p-5">
-        <div className="mb-4 flex items-center justify-between gap-3 border-b border-slate-100 pb-4">
+      <div className="w-full rounded-2xl border border-[#cbd9c6] bg-[#f8faf4]/95 p-4 shadow-[0_14px_34px_-28px_rgba(31,67,43,0.5)] md:p-5">
+        <div className="mb-4 flex items-center justify-between gap-3 border-b border-[#dce5d7] pb-4">
           <div>
             <h2 className="text-base font-semibold text-slate-900">Your routine list</h2>
             <p className="mt-0.5 text-xs text-slate-500">Search, sort, and update your routines</p>
@@ -88,13 +88,13 @@ function RoutineList({
             placeholder="Search routines..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full min-w-0 rounded-xl border border-slate-200 bg-[#f8fbf7] px-3 py-2.5 text-sm text-slate-700 transition placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-[#9bc6a1]"
+            className="w-full min-w-0 rounded-xl border border-[#d1ddcc] bg-[#eef3e9] px-3 py-2.5 text-sm text-slate-700 transition placeholder:text-slate-500 focus:border-[#8fb99a] focus:outline-none focus:ring-2 focus:ring-[#9bc6a1]"
           />
 
           <select
             value={filterPriority}
             onChange={(e) => setFilterPriority(e.target.value)}
-            className="w-full min-w-0 rounded-xl border border-slate-200 bg-[#f8fbf7] px-3 py-2.5 text-sm text-slate-700 focus:outline-none focus:ring-2 focus:ring-[#9bc6a1]"
+            className="w-full min-w-0 rounded-xl border border-[#d1ddcc] bg-[#eef3e9] px-3 py-2.5 text-sm text-slate-700 focus:border-[#8fb99a] focus:outline-none focus:ring-2 focus:ring-[#9bc6a1]"
           >
             <option value="All">Priority</option>
             <option value="high">High</option>
@@ -105,7 +105,7 @@ function RoutineList({
           <select
             value={filterCategory}
             onChange={(e) => setFilterCategory(e.target.value)}
-            className="w-full min-w-0 rounded-xl border border-slate-200 bg-[#f8fbf7] px-3 py-2.5 text-sm text-slate-700 focus:outline-none focus:ring-2 focus:ring-[#9bc6a1]"
+            className="w-full min-w-0 rounded-xl border border-[#d1ddcc] bg-[#eef3e9] px-3 py-2.5 text-sm text-slate-700 focus:border-[#8fb99a] focus:outline-none focus:ring-2 focus:ring-[#9bc6a1]"
           >
             <option value="All">Category</option>
             <option value="health">Health</option>
@@ -118,7 +118,7 @@ function RoutineList({
           <select
             value={sortBy}
             onChange={(e) => setSortBy(e.target.value)}
-            className="w-full min-w-0 rounded-xl border border-slate-200 bg-[#f8fbf7] px-3 py-2.5 text-sm text-slate-700 focus:outline-none focus:ring-2 focus:ring-[#9bc6a1]"
+            className="w-full min-w-0 rounded-xl border border-[#d1ddcc] bg-[#eef3e9] px-3 py-2.5 text-sm text-slate-700 focus:border-[#8fb99a] focus:outline-none focus:ring-2 focus:ring-[#9bc6a1]"
           >
             <option value="newest">Newest First</option>
             <option value="oldest">Oldest First</option>
@@ -142,7 +142,7 @@ function RoutineList({
             />
 
           )) : (
-            <div className="rounded-xl border border-dashed border-slate-200 bg-[#f8fbf7] px-4 py-10 text-center">
+            <div className="rounded-xl border border-dashed border-[#cbd9c6] bg-[#edf3e9] px-4 py-10 text-center">
               <p className="text-sm font-medium text-slate-700">
                 {routines.length ? "No routines match these filters" : "No routines yet"}
               </p>

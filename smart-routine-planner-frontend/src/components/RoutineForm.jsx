@@ -24,7 +24,7 @@ function RoutineForm({ addRoutine, routine, setRoutine, editId,error }) {
       onChange={(e) =>
         setRoutine({ ...routine, title: e.target.value })
       }
-      className="w-full rounded-xl border border-slate-200 bg-[#f8fbf7] px-3 py-2.5 text-sm text-slate-700 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-[#9bc6a1]"
+      className="w-full rounded-xl border border-[#d1ddcc] bg-[#eef3e9] px-3 py-2.5 text-sm text-slate-700 placeholder:text-slate-500 focus:border-[#8fb99a] focus:outline-none focus:ring-2 focus:ring-[#9bc6a1]"
     />
 
     {/* Category + Hours */}
@@ -35,7 +35,7 @@ function RoutineForm({ addRoutine, routine, setRoutine, editId,error }) {
         onChange={(e) =>
           setRoutine({ ...routine, category: e.target.value })
         }
-        className="rounded-xl border border-slate-200 bg-[#f8fbf7] px-3 py-2.5 text-sm text-slate-700 focus:outline-none focus:ring-2 focus:ring-[#9bc6a1]"
+        className="rounded-xl border border-[#d1ddcc] bg-[#eef3e9] px-3 py-2.5 text-sm text-slate-700 focus:border-[#8fb99a] focus:outline-none focus:ring-2 focus:ring-[#9bc6a1]"
       >
         <option value="">Category</option>
         <option value="study">Study</option>
@@ -55,13 +55,13 @@ function RoutineForm({ addRoutine, routine, setRoutine, editId,error }) {
             targetHours: parseFloat(e.target.value) || 0,
           })
         }
-        className="rounded-xl border border-slate-200 bg-[#f8fbf7] px-3 py-2.5 text-sm text-slate-700 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-[#9bc6a1]"
+        className="rounded-xl border border-[#d1ddcc] bg-[#eef3e9] px-3 py-2.5 text-sm text-slate-700 placeholder:text-slate-500 focus:border-[#8fb99a] focus:outline-none focus:ring-2 focus:ring-[#9bc6a1]"
       />
 
     </div>
 
     {/* Priority */}
-    <div className="flex justify-between gap-2 rounded-xl border border-slate-200 bg-[#f8fbf7] p-3 text-sm">
+    <div className="flex justify-between gap-2 rounded-xl border border-[#d1ddcc] bg-[#edf3e8] p-3 text-sm">
 
       <label className="flex items-center gap-1 cursor-pointer">
         <input
