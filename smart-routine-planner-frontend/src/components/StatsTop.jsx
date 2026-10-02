@@ -10,28 +10,27 @@ function StatsTop({ stats }) {
     <div className="flex items-center gap-5 border-b border-[#d4e7d6] bg-[#edf6ed] px-5 py-7 text-slate-900 sm:gap-6 sm:px-8 lg:border-b-0 lg:border-r">
       
     <div
-        className="grid h-36 w-36 shrink-0 place-items-center rounded-full sm:h-40 sm:w-40"
-        role="img"
-        aria-label={`Today's progress: ${Number(stats.completedRate).toFixed(0)}%`}
-        style={{
-          background: `conic-gradient(
-            from -90deg,
-            #49a86a ${stats.completedRate}%,
-            #cce7ca ${stats.completedRate}% 100%
-          )`,
-        }}
-      >
-            <div className="grid h-24 w-24 place-content-center rounded-full bg-[#e3f5df] text-center sm:h-32 sm:w-32">
-              <span className="text-2xl font-bold tabular-nums text-slate-900 sm:text-4xl">
-  {Number.isInteger(completionRate)
-    ? completionRate
-    : completionRate.toFixed(2)}%
-</span>
-          <span className="mt-1 text-xs font-medium text-slate-500">
-            complete
-          </span>
-        </div>
-      </div>
+  className="grid h-36 w-36 shrink-0 place-items-center rounded-full sm:h-40 sm:w-40"
+  role="img"
+  aria-label={`Today's progress: ${Math.round(stats.completedRate)}%`}
+  style={{
+    background: `conic-gradient(
+      from -90deg,
+      #49a86a ${stats.completedRate}%,
+      #cce7ca ${stats.completedRate}% 100%
+    )`,
+  }}
+>
+  <div className="grid h-24 w-24 place-content-center rounded-full bg-[#e3f5df] text-center sm:h-32 sm:w-32">
+    <span className="text-2xl font-bold tabular-nums text-slate-900 sm:text-4xl">
+      {Math.round(completionRate)}%
+    </span>
+
+    <span className="mt-1 text-xs font-medium text-slate-500">
+      complete
+    </span>
+  </div>
+</div>
 
       <div>
         <p className="text-sm font-semibold text-slate-800 sm:text-base">
@@ -82,7 +81,7 @@ function StatsTop({ stats }) {
           Completion Rate
         </p>
         <p className="mt-1 text-3xl font-semibold tabular-nums text-emerald-700">
-          {stats.completedRate}%
+             {Math.round(stats.completedRate)}%
         </p>
         <span className="mt-1 text-xs text-slate-500">of today's plan</span>
       </div>

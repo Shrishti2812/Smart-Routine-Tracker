@@ -20,23 +20,25 @@ export function RoutineProvider({children}){
   const [showDelete, setShowDelete] = useState(false);
   const [deleteId, setDeleteId] = useState(null);
   const [routines, setRoutines] = useState([]);
-  useEffect(() => {
-    const getRoutines = async () => {
-      try {
-        const response = await api.get("/routine/get");
-        const data = response.data.map((routine) => ({
-          ...routine,
-          id: routine._id
-        }));
-        setRoutines(data);
-      } catch (error) {
-        setError(
-          error.response?.data?.message ||
-          "Failed to load routines."
-        );   }
-    };
-    getRoutines();
-  }, []);
+const getRoutines = async () => {
+  try {
+    const response = await api.get("/routine/get");
+    const data = response.data.map((routine) => ({
+      ...routine,
+      id: routine._id
+    }));
+    setRoutines(data);
+  } catch (error) {
+    setError(
+      error.response?.data?.message ||
+      "Failed to load routines."
+    );
+  }
+};
+
+useEffect(() => {
+  getRoutines();
+}, []);
 
   const getStats = async () => {
     try {
@@ -196,7 +198,7 @@ const confirmDelete = async () => {
 return (
     <>
     <RoutineContext.Provider value={{routine,setRoutine,stats,error,editId,routines,setRoutines,showDelete,addRoutine,
-      handleEdit,handleDeleteRequest,confirmDelete,cancelDelete,toggleDone,}}>
+      handleEdit,handleDeleteRequest,confirmDelete,cancelDelete,toggleDone,getRoutines}}>
         {children}
     </RoutineContext.Provider>
     </>

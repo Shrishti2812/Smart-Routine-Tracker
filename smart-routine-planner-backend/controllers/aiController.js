@@ -150,7 +150,7 @@ Return ONLY valid JSON.
   "additions": [
     {
       "title": "string",
-      "category": "Study | Work | Personal | Health | Other",
+      "category": "study | work | personal | health | other",
       "suggestedMinutes": number,
       "priority": "low | medium | high",
       "reason": "string"
@@ -205,4 +205,23 @@ ${JSON.stringify(aiData)}
   }
 };
 
-module.exports = { optimizeRoutine };
+const applyChanges = async (req, res) => {
+  try {
+    const { changes, additions } = req.body;
+    console.log("Additions received:", additions);
+    for(const change of changes){
+await Routine.findByIdAndUpdate(change.id,{targetHours:change.suggestedHours} );
+    }
+    for(const addition of additions){
+      await Routine.create({
+        title:addition.title,
+        category:addition.category,
+        targetHours:addition.suggestedHours,
+        priority:addition.priority
+      })
+    }
+    return res.status(200).json("Changes applied ")
+  }catch(error){
+    return res.status(500).json({message:error.message});
+  }}
+module.exports = { optimizeRoutine,applyChanges };
