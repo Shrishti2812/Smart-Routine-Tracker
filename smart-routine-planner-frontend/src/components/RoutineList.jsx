@@ -129,7 +129,7 @@ function RoutineList({
 
 
         {/* List */}
-        <div className="mt-4 flex max-h-[44vh] flex-col gap-3 overflow-y-auto pr-1 md:max-h-[58vh]">
+        <div className="mt-4 flex flex-col gap-3  ">
 
           {sortedRoutines.length > 0 ? sortedRoutines.map((routine) => (
 

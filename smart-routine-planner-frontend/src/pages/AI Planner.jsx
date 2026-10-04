@@ -1,6 +1,7 @@
 import api from "../api/axios";
 import { useContext, useState } from "react";
 import { RoutineContext } from "../context/RoutineContext";
+import { useNavigate } from "react-router-dom";
 function AIPlanner() {
   const [goal, setGoal] = useState("");
   const [mode, setMode] = useState("balanced");
@@ -10,6 +11,7 @@ function AIPlanner() {
 const [isApplying,setIsApplying]=useState(false);
 const [applySuccess, setApplySuccess] = useState(false);
 const { getRoutines } = useContext(RoutineContext);
+const navigate=useNavigate();
   const modes = [
     {
       value: "balanced",
@@ -33,22 +35,7 @@ const { getRoutines } = useContext(RoutineContext);
     "Run my first 5K",
     "Learn a new skill",
   ];
-  const formatTime = (hours) => {
-    const totalMinutes = Math.round(Number(hours || 0) * 60);
-
-    if (totalMinutes === 0) {
-      return "0m";
-    }
-    const wholeHours = Math.floor(totalMinutes / 60);
-    const minutes = totalMinutes % 60;
-    if (wholeHours === 0) {
-      return `${minutes}m`;
-    }
-    if (minutes === 0) {
-      return `${wholeHours}h`;
-    }
-    return `${wholeHours}h ${minutes}m`;
-  };
+const {formatTime}=useContext(RoutineContext);
  const applyChanges = async () => {
   try{
     const response=await api.post("/ai/apply",{
@@ -72,7 +59,7 @@ const { getRoutines } = useContext(RoutineContext);
     e.preventDefault();
     setIsGenerating(true);
     setError("");
-
+setApplySuccess(false);
     try {
       const response = await api.post("/ai/optimize", {
         goal,
@@ -91,12 +78,12 @@ const { getRoutines } = useContext(RoutineContext);
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#e2eee0] via-[#f5f7ef] to-[#d5e9df] px-8 py-15 sm:px-6">
-      <div className="mx-auto max-w-7xl px-6">
+    <div className="min-h-screen bg-gradient-to-br from-[#e2eee0] via-[#f5f7ef] to-[#d5e9df] px-3 pb-8 pt-20 sm:px-6 sm:pt-20 lg:px-8">
+      <div className="mx-auto max-w-7xl px-0 sm:px-2">
 
         {/* Header */}
-        <div className="mb-4">
-          <h1 className="mt-3 text-4xl font-bold text-[#172b21]">
+        <div className="mb-5 sm:mb-4">
+          <h1 className="text-3xl font-bold text-[#172b21] sm:text-4xl">
             AI Routine Planner
           </h1>
 
@@ -109,7 +96,7 @@ const { getRoutines } = useContext(RoutineContext);
         <form
           onSubmit={handleOptimize}
           aria-busy={isGenerating}
-          className="rounded-xl border border-[#b3ccb0] bg-gradient-to-br from-[#f8faf4] via-[#f2f7ed] to-[#e8f1e4] px-5 py-2 shadow-[0_16px_40px_-28px_rgba(49,112,66,0.6)]"
+          className="rounded-xl border border-[#b3ccb0] bg-gradient-to-br from-[#f8faf4] via-[#f2f7ed] to-[#e8f1e4] px-3 py-3 shadow-[0_16px_40px_-28px_rgba(49,112,66,0.6)] sm:px-5 sm:py-2"
         >
           {/* Form Header */}
           <div className="mb-1 flex items-center justify-between gap-3 border-b border-[#d2e2ce] pb-2">
@@ -132,7 +119,7 @@ const { getRoutines } = useContext(RoutineContext);
           <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between sm:gap-6">
 
             {/* Goal */}
-            <div className="mb-5 min-w-0 flex-1">
+            <div className="mb-1 min-w-0 flex-1 sm:mb-5">
               <label className="mb-2 flex items-center gap-2 text-sm font-semibold text-slate-800">
                 <span
                   aria-hidden="true"
@@ -171,7 +158,7 @@ const { getRoutines } = useContext(RoutineContext);
             </div>
 
             {/* Mode */}
-            <div className="mb-6 min-w-0 flex-[1.4]">
+            <div className="mb-3 min-w-0 flex-[1.4] sm:mb-6">
               <label className="mb-2 flex items-center gap-2 text-sm font-semibold text-slate-800">
                 <span
                   aria-hidden="true"
@@ -187,7 +174,7 @@ const { getRoutines } = useContext(RoutineContext);
                 {modes.map((option) => (
                   <label
                     key={option.value}
-                    className={`cursor-pointer rounded-lg border p-4 transition ${
+                    className={`cursor-pointer rounded-lg border p-3 transition sm:p-4 ${
                       mode === option.value
                         ? "border-[#459e60] bg-[#eaf6e6] shadow-[0_5px_14px_-10px_rgba(55,134,79,0.8)] ring-1 ring-[#459e60]/25"
                         : "border-[#d5dfd1] bg-[#fbfcf8] hover:border-[#a9cfae] hover:bg-[#f0f6ec]"
@@ -272,7 +259,7 @@ const { getRoutines } = useContext(RoutineContext);
           <div className="mt-6 overflow-hidden rounded-xl border border-[#b3ccb0] bg-[#f9fbf6] shadow-[0_16px_40px_-28px_rgba(49,112,66,0.6)]">
 
             {/* Plan Header */}
-            <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[#d2e2ce] bg-[#eaf2e6] px-5 py-4">
+            <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[#d2e2ce] bg-[#eaf2e6] px-3 py-4 sm:px-5">
               <div>
                 <p className="text-xs font-bold uppercase tracking-[0.14em] text-[#37864f]">
                   Your AI Plan
@@ -289,7 +276,7 @@ const { getRoutines } = useContext(RoutineContext);
             </div>
 
             {/* Overall Recommendation */}
-            <div className="px-5 py-2">
+            <div className="px-3 py-2 sm:px-5">
               <div className="rounded-xl border border-[#78bd82]/70 bg-gradient-to-br from-[#e2f7df]/90 via-[#d8f1d8]/75 to-[#eef9e9]/85 px-4 py-3 shadow-[0_0_24px_rgba(72,180,91,0.28),inset_0_1px_0_rgba(255,255,255,0.75)] backdrop-blur-md">
 
                 <div className="flex items-center gap-3">
@@ -330,7 +317,7 @@ const { getRoutines } = useContext(RoutineContext);
             ================================================= */}
             {(result.changes?.length > 0 ||
               result.additions?.length > 0) && (
-              <div className="border-t border-[#d2e2ce] px-5 py-5">
+              <div className="border-t border-[#d2e2ce] px-3 py-5 sm:px-5">
 
                 <div className="grid gap-7 lg:grid-cols-2">
 
@@ -367,18 +354,18 @@ const { getRoutines } = useContext(RoutineContext);
                           return (
                             <div
                               key={change.id}
-                              className="rounded-lg border border-[#d9e5d3] bg-[#f0f5eb] px-3.5 py-2.5"
+                              className="rounded-lg border border-[#d9e5d3] bg-[#f0f5eb] px-3 py-2.5 sm:px-3.5"
                             >
 
-                              <div className="flex items-center justify-between gap-3">
+                              <div className="flex flex-col items-start gap-1.5 sm:flex-row sm:items-center sm:justify-between sm:gap-3">
 
                                 {/* Routine name */}
-                                <p className="min-w-0 truncate text-sm font-medium text-slate-700">
+                                <p className="w-full break-words text-sm font-medium text-slate-700 sm:min-w-0 sm:truncate">
                                   {change.title}
                                 </p>
 
                                 {/* Before → After + Change */}
-                                <div className="flex shrink-0 items-center gap-2">
+                                <div className="flex w-full items-center justify-between gap-1 sm:w-auto sm:shrink-0 sm:justify-end sm:gap-2">
 
                                   <span className="text-xs text-slate-400">
                                     {formatTime(currentHours)}
@@ -388,12 +375,12 @@ const { getRoutines } = useContext(RoutineContext);
                                     →
                                   </span>
 
-                                  <span className="text-sm font-semibold text-slate-700">
+                                  <span className="text-xs font-semibold text-slate-700 sm:text-sm">
                                     {formatTime(suggestedHours)}
                                   </span>
 
                                   <span
-                                    className={`min-w-[42px] rounded-full px-2 py-0.5 text-center text-[11px] font-bold ${
+                                    className={`min-w-[42px] rounded-full px-2 py-0.5 text-center text-[10px] font-bold sm:text-[11px] ${
                                       difference > 0
                                         ? "bg-[#e2f3df] text-[#37864f]"
                                         : difference < 0
@@ -437,7 +424,7 @@ const { getRoutines } = useContext(RoutineContext);
                         {result.additions.map((addition, index) => (
                           <div
                             key={index}
-                            className="rounded-lg border border-[#d9e5d3] bg-[#f0f5eb] px-3.5 py-2.5"
+                            className="rounded-lg border border-[#d9e5d3] bg-[#f0f5eb] px-3 py-2.5 sm:px-3.5"
                           >
 
                             <div className="flex items-start justify-between gap-3">
@@ -473,27 +460,48 @@ const { getRoutines } = useContext(RoutineContext);
                 </div>
               </div>
             )}
- 
-<div className="border-t border-[#d2e2ce] px-5 py-4">
+<div className="border-t border-[#d2e2ce] px-3 py-4 sm:px-5">
+  {applySuccess ? (
+    <div
+      aria-live="polite"
+      className="flex w-full items-center justify-center gap-2 rounded-lg border border-[#b9d9bd] bg-[#eaf6e6] px-4 py-2.5 text-sm font-semibold text-[#286c43]"
+    >
+      <svg
+        aria-hidden="true"
+        className="h-4 w-4"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+        strokeWidth="2"
+      >
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          d="m5 12 4 4L19 6"
+        />
+      </svg>
 
-  {applySuccess && (
-    <p className="mb-3 text-center text-sm font-medium text-[#37864f]">
-      ✓ Changes applied successfully. Your routines have been updated.
-    </p>
+      <span>Changes applied</span>
+
+      <button
+        type="button"
+        onClick={() => navigate("/routines")}
+        className="ml-1 font-semibold text-[#286c43] underline underline-offset-2 transition hover:text-[#1f5936] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#459e60]"
+      >
+        View Changes
+      </button>
+    </div>
+  ) : (
+    <button
+      type="button"
+      onClick={applyChanges}
+      disabled={isApplying}
+      aria-live="polite"
+      className="flex w-full items-center justify-center gap-2 rounded-lg bg-gradient-to-r from-[#286c43] to-[#4b9b61] px-4 py-2.5 text-sm font-semibold text-white shadow-[0_8px_18px_-10px_rgba(55,134,79,0.9)] transition hover:from-[#245d3b] hover:to-[#3d8853] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#459e60] disabled:cursor-not-allowed disabled:opacity-70"
+    >
+      {isApplying ? "Applying changes..." : "Apply Changes"}
+    </button>
   )}
-<button
-  type="button"
-  onClick={applyChanges}
-  disabled={isApplying || applySuccess}
-  className="w-full rounded-lg bg-gradient-to-r from-[#286c43] to-[#4b9b61] px-4 py-3 text-sm font-semibold text-white shadow-[0_8px_18px_-10px_rgba(55,134,79,0.9)] transition hover:from-[#245d3b] hover:to-[#3d8853] disabled:cursor-not-allowed disabled:opacity-70"
->
-  {isApplying
-    ? "Applying changes..."
-    : applySuccess
-      ? "✓ Changes Applied"
-      : "Apply Changes"}
-</button>
-
 </div>
  
           </div>

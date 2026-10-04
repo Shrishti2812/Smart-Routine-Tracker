@@ -1,6 +1,9 @@
+import { useContext } from "react";
+import { RoutineContext } from "../context/RoutineContext";
 function RoutineItem({ routine, onEdit, handleDelete, handleEdit }) {
   const today=  new Date().toISOString().split("T")[0];
   const isCompletedToday = routine.lastCompletedDate === today;
+  const {formatTime}=useContext(RoutineContext)
     return (
     <>
  <div className="rounded-xl border border-[#c6d9bd] border-l-[3px] border-l-[#67a975] bg-gradient-to-r from-[#e8f1df] to-[#f1f5e9] px-3 py-2.5 shadow-[0_5px_15px_-12px_rgba(31,67,43,0.6)] transition duration-200 hover:border-[#91b995] hover:border-l-[#459e60] hover:from-[#e4f0dc] hover:to-[#f4f8ee] hover:shadow-md sm:px-3.5 sm:py-3">
@@ -16,7 +19,15 @@ function RoutineItem({ routine, onEdit, handleDelete, handleEdit }) {
       <p className="mt-1 flex flex-wrap items-center gap-1.5 text-xs text-slate-600">
         <span className="rounded-md border border-[#d4e1ce] bg-[#f7faf2] px-1.5 py-0.5 font-medium capitalize text-[#45634c]">{routine.category}</span>
         <span className="text-slate-300">·</span>
-        <span>{routine.targetHours} hrs</span>
+  <span
+  className={
+    routine.targetHours === 0
+      ? "rounded-md bg-[#e5f3d9] px-1.5 py-0.5 font-medium text-[#4d773d]"
+      : ""
+  }
+>
+  {routine.targetHours === 0 ? "⏸ Paused" : formatTime(routine.targetHours)}
+</span>
       </p>
     </div>
 

@@ -1,8 +1,11 @@
+
+import { useContext } from "react";
+import { RoutineContext } from "../context/RoutineContext";
 function RoutineStats({ stats, routines = [] }) {
   if (!stats) return null;
 
   const today = new Date().toISOString().split("T")[0];
-
+const {formatTime}=useContext(RoutineContext);
   const priorityCount = stats.priorityCount || {};
   const categoryCount = stats.categoryCount || {};
   const priorityItems = [
@@ -84,7 +87,7 @@ function RoutineStats({ stats, routines = [] }) {
 
                   {/* Hours */}
                   <span className="ml-4 shrink-0 rounded-lg bg-[#eaf4e9] px-2.5 py-1.5 text-sm font-semibold text-[#426e4b]">
-                    {routine.targetHours ?? 0} hrs
+                    {formatTime(routine.targetHours) ?? 0} hrs
                   </span>
 
                 </div>
@@ -101,7 +104,7 @@ function RoutineStats({ stats, routines = [] }) {
 
 
       {/* Breakdown */}
-      <div className="overflow-hidden rounded-2xl border border-[#cad9c7] bg-[#f9faf5] shadow-[0_14px_34px_-28px_rgba(31,67,43,0.5)] lg:col-span-1">
+      <div className="overflow-hidden rounded-2xl border border-[#cad9c7] bg-[#f9faf5] shadow-[0_14px_34px_-28px_rgba(31,67,43,0.5)] ">
 
         {/* Priority */}
         <div className="bg-[#edf3e8] px-4 py-4">

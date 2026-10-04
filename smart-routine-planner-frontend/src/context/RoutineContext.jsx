@@ -53,6 +53,26 @@ useEffect(() => {
     getStats();
   }, []);
 
+  const formatTime = (hours) => {
+  const totalMinutes = Math.round(Number(hours || 0) * 60);
+
+  if (totalMinutes === 0) {
+    return "Paused";
+  }
+
+  const wholeHours = Math.floor(totalMinutes / 60);
+  const minutes = totalMinutes % 60;
+
+  if (wholeHours === 0) {
+    return `${minutes}m`;
+  }
+
+  if (minutes === 0) {
+    return `${wholeHours}h`;
+  }
+
+  return `${wholeHours}h ${minutes}m`;
+};
 
   const addRoutine = async (passedRoutine) => {
     const current = passedRoutine || routine;
@@ -198,7 +218,7 @@ const confirmDelete = async () => {
 return (
     <>
     <RoutineContext.Provider value={{routine,setRoutine,stats,error,editId,routines,setRoutines,showDelete,addRoutine,
-      handleEdit,handleDeleteRequest,confirmDelete,cancelDelete,toggleDone,getRoutines}}>
+      handleEdit,handleDeleteRequest,confirmDelete,cancelDelete,toggleDone,formatTime,getRoutines}}>
         {children}
     </RoutineContext.Provider>
     </>
