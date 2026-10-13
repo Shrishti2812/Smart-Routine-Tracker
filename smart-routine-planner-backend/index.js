@@ -9,8 +9,10 @@ app.use(cors());
 const Port=process.env.PORT||8000;
 const routineRoute = require("./routes/routineRoute.js");
 const aiRoute=require("./routes/aiRoute.js")
+const userRoute=require("./routes/userRoute.js")
 connectDb();
 app.use(express.json());
+app.use("/user",userRoute);
 app.use("/routine",routineRoute);
 app.use("/ai",aiRoute);
 app.listen(Port,()=>console.log(`server running on ${Port}`));

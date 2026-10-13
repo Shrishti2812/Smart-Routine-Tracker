@@ -9,6 +9,11 @@ const routine=mongoose.Schema({
   enum: ["study", "work", "personal", "health", "other"],
   required: true
 },
+user: {
+  type: mongoose.Schema.Types.ObjectId,
+  ref: "User",
+  required: true
+},
     targetHours:{
         type:Number,
         required:true

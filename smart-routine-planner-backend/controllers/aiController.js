@@ -10,7 +10,7 @@ const optimizeRoutine = async (req, res) => {
   try {
     const { goal, mode } = req.body;
 
-    const routines = await Routine.find();
+    const routines = await Routine.find({user:req.user.id});
 
     const aiData = {
       goal,
@@ -207,15 +207,16 @@ ${JSON.stringify(aiData)}
 
 const applyChanges = async (req, res) => {
   try {
-    const { changes, additions } = req.body;
-    console.log("Additions received:", additions);
+    const { changes = [], additions = [] } = req.body;
     for(const change of changes){
-await Routine.findByIdAndUpdate(change.id,{targetHours:change.suggestedHours} );
+await Routine.findOneAndUpdate({_id:change.id,user:req.user.id},{targetHours:change.suggestedHours} );
     }
     for(const addition of additions){
       await Routine.create({
         title:addition.title,
-        category:addition.category,
+        category:addition.category,     
+           user:req.user.id,
+
         targetHours:addition.suggestedHours,
         priority:addition.priority
       })

@@ -2,7 +2,9 @@ const Routine=require("../models/routine.js");
 const addRoutine=async(req,res)=>{
     try{
         const {title,category,targetHours,priority}=req.body;
-        const routine=await Routine.create({title,category,targetHours,priority});
+        const userid=req.user.id;
+
+        const routine=await Routine.create({title,category,targetHours,priority,user:userid});
     return res.status(201).json(routine);
     }catch(error){
         return res.status(500).json({message:error.message});
@@ -10,7 +12,8 @@ const addRoutine=async(req,res)=>{
 
     const getRoutine=async(req,res)=>{
         try{
-            const routines=await Routine.find({});
+            const userid=req.user.id;
+            const routines=await Routine.find({user:userid});
             return res.status(200).json(routines);
         }catch(error){
             return res.status(500).json({message:error.message});
@@ -19,9 +22,15 @@ const addRoutine=async(req,res)=>{
 
     const updateRoutine=async(req,res)=>{
         try{
-         
-            const routine=await Routine.findByIdAndUpdate(req.params.id,req.body,{new:true});
-            if(!routine){
+        
+const routine = await Routine.findOneAndUpdate(
+    {
+        _id: req.params.id,
+        user: req.user.id
+    },
+    req.body,
+    { returnDocument: "after" }
+);            if(!routine){
                 return res.status(404).json({message:"Routine not found"});
             }
             return res.status(200).json({routine});
@@ -33,8 +42,12 @@ const addRoutine=async(req,res)=>{
 
     const deleteRoutine=async(req,res)=>{
         try{
-            const id=req.params.id;
-            const routine=await Routine.findByIdAndDelete(id);
+            
+            const routine= await Routine.findOneAndDelete(
+    {
+        _id: req.params.id,
+        user: req.user.id
+    })
             if(!routine){
                 return res.status(404).json({message:"Routine not found"});
             }
@@ -47,7 +60,7 @@ const addRoutine=async(req,res)=>{
 
     const completeRoutine=async(req,res)=>{
         try{
-            const routine=await Routine.findById(req.params.id);
+            const routine=await Routine.findOne({_id:req.params.id,user:req.user.id});
             if(!routine){
                 return res.status(404).json({message:"Routine not found"});
             }
@@ -76,8 +89,8 @@ return res.status(200).json({
 
    const getStats = async (req, res) => {
   try {
-    const routines = await Routine.find();
-
+  const userid=req.user.id;
+            const routines=await Routine.find({user:userid});
     const today = new Date().toISOString().split("T")[0];
 
     const total = routines.length;
